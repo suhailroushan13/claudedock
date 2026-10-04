@@ -10,6 +10,122 @@
 Opus 5.5 xhigh │ ⎇ main │ Session ██████░░░░ 58% ↻ 2h13m │ Context ████████░░ 82% (820k/1M) ⚠ │ AWAKE 1h05m
 ```
 
+---
+
+## Quick start
+
+You need **Claude Code** (run `claude update` to get the latest) and **Node.js 18 or newer** (check with `node -v`, get it from [nodejs.org](https://nodejs.org)). Works on macOS, Windows and Linux.
+
+### Step 1: Go to your project repo
+
+Open a terminal and move into the project you want Claude to work on:
+
+```bash
+cd ~/path/to/your-project
+```
+
+### Step 2: Start Claude Code
+
+```bash
+claude
+```
+
+Everything from here on is typed **inside Claude Code**.
+
+### Step 3: Add the ClaudeDock marketplace
+
+```
+/plugin marketplace add suhailroushan13/claudedock
+```
+
+You should see: `Successfully added marketplace: claudedock`.
+
+### Step 4: Install the plugin
+
+```
+/plugin install claudedock@claudedock
+```
+
+Choose **Install** in the panel that opens. Pick **User** scope so ClaudeDock works in every project, not only this one.
+
+### Step 5: Reload plugins
+
+```
+/reload-plugins
+```
+
+This loads the new `claudedock:` commands without restarting Claude Code.
+
+### Step 6: Run setup
+
+```
+claudedock:setup
+```
+
+This turns on the status bar and creates the keep-awake hotkey. You'll see a short summary when it's done.
+
+### Step 7: Send any message
+
+Type `hi`. The status bar appears at the bottom of Claude Code after Claude replies. 🎉
+
+### Step 8: See every command
+
+```
+claudedock:help
+```
+
+### Step 9 (macOS only, recommended)
+
+```
+claudedock:awake nopass
+```
+
+Keep-awake needs admin rights on macOS. This asks for your password **once**, so toggling it never asks again.
+
+**Done.** Because you installed with User scope, ClaudeDock is now on in every project. You only do these steps once.
+
+---
+
+## Change anything with `claudedock:`
+
+Every ClaudeDock action is a `claudedock:` command. Type it straight into Claude Code like a normal message, **no `/` in front**:
+
+```
+claudedock:awake on
+claudedock:browse shorts
+claudedock:browse default reels
+```
+
+> Only Claude Code's own built-in commands, like `/plugin` and `/reload-plugins`, need the `/`. If you like the autocomplete menu, `/claudedock:...` works too.
+
+| Command | What it does |
+| --- | --- |
+| `claudedock:help` | Show every command with a short description |
+| `claudedock:setup` | Install or refresh the status bar and hotkey. Run it again after updating |
+| `claudedock:awake` | Toggle keep-awake |
+| `claudedock:awake on` / `off` | Turn keep-awake on / off |
+| `claudedock:awake status` | Show whether keep-awake is on |
+| `claudedock:awake nopass` | macOS: stop asking for your password when toggling |
+| `claudedock:browse` | Open your default page (Subway Surfers) on the right side |
+| `claudedock:browse <preset>` | `subway`, `games`, `shorts`, `reels`, `youtube`, `tiktok` |
+| `claudedock:browse <url>` | Open any website, like `claudedock:browse example.com` |
+| `claudedock:browse <x> --pane` / `--window` | Force the terminal pane or the docked window this time |
+| `claudedock:browse default <preset or url>` | Change the default page |
+| `claudedock:browse mode <auto, pane or window>` | Change the default mode |
+| `claudedock:browse list` | Show presets and your current settings |
+| `claudedock:remove` | Remove the status bar, hotkey, password rule, browser profile and files |
+
+Built-in Claude Code commands you'll use with it:
+
+| Command | What it does |
+| --- | --- |
+| `/reload-plugins` | Reload plugins in the current session |
+| `/plugin` | Open the plugin manager (browse, enable, disable, uninstall) |
+
+---
+
+## Status bar
+
 | Segment | What it shows |
 | --- | --- |
 | **Model** | The model you're using, like `Opus 5.5`, `Sonnet 5.5` or `Haiku 4.5` |
@@ -25,136 +141,7 @@ The bar adapts to your terminal width: full bars when wide, shorter bars when me
 
 ---
 
-## Contents
-
-1. [Requirements](#1-requirements)
-2. [Install in Claude Code (step by step)](#2-install-in-claude-code-step-by-step)
-3. [Keep-awake: keep Claude working with the lid closed](#3-keep-awake-keep-claude-working-with-the-lid-closed)
-4. [Side browser: Shorts, Reels and games next to Claude](#4-side-browser-shorts-reels-and-games-next-to-claude)
-5. [Reload and update](#5-reload-and-update)
-6. [Remove everything](#6-remove-everything)
-7. [Command reference (`/claudedock:help`)](#7-command-reference)
-8. [Troubleshooting](#8-troubleshooting)
-9. [How it works](#9-how-it-works)
-10. [For developers](#10-for-developers)
-
----
-
-## 1. Requirements
-
-- **Claude Code**, recent version. Update with:
-  ```bash
-  claude update
-  ```
-- **Node.js 18 or newer.** Check with:
-  ```bash
-  node -v
-  ```
-  Don't have it? Install it from [nodejs.org](https://nodejs.org).
-- **macOS, Windows or Linux.**
-
----
-
-## 2. Install in Claude Code (step by step)
-
-### Step 1: Open Claude Code
-
-In your terminal:
-
-```bash
-claude
-```
-
-### Step 2: Add the ClaudeDock marketplace
-
-Type this in Claude Code and press Enter:
-
-```
-/plugin marketplace add suhailroushan13/claudedock
-```
-
-You should see: `Successfully added marketplace: claudedock`.
-
-### Step 3: Install the plugin
-
-```
-/plugin install claudedock@claudedock
-```
-
-This opens the plugin panel. Choose **Install**. "User" scope is best, because it works in all your projects.
-
-### Step 4: Reload plugins
-
-This makes the new `/claudedock:...` commands available right away, without restarting:
-
-```
-/reload-plugins
-```
-
-### Step 5: Run setup
-
-```
-/claudedock:setup
-```
-
-This turns on the status bar and creates the keep-awake hotkey. You'll see a short summary when it's done.
-
-### Step 6: Send any message
-
-The status bar appears at the bottom of Claude Code after Claude's next reply. Type `hi` and you'll see it. 🎉
-
-### Step 7: See everything you can do
-
-```
-/claudedock:help
-```
-
-This lists every ClaudeDock command with a short description.
-
-### Step 8 (macOS only, optional but recommended)
-
-Keep-awake needs admin rights on macOS. Run this **once**, so it never asks for your password again:
-
-```
-/claudedock:awake nopass
-```
-
-macOS shows a password dialog one time. After that, toggling is instant.
-
----
-
-### Prefer the normal terminal? (same install, outside Claude Code)
-
-```bash
-claude plugin marketplace add suhailroushan13/claudedock
-claude plugin install claudedock@claudedock
-claude -p "/claudedock:setup"
-```
-
-### No plugin at all? (status bar + hotkey only)
-
-```bash
-git clone https://github.com/suhailroushan13/claudedock.git
-node claudedock/plugins/claudedock/scripts/install.js
-```
-
-Without the plugin you don't get the `/claudedock:...` commands. Use the hotkey or `node ~/.claude/claudedock/awake.js on|off` instead.
-
-### What setup changes on your computer
-
-| What | Where |
-| --- | --- |
-| Copies the scripts | `~/.claude/claudedock/` |
-| Sets `statusLine` | `~/.claude/settings.json`. If you already had a status line, it's saved and **restored when you remove ClaudeDock** |
-| One-time settings backup | `~/.claude/settings.json.claudedock-backup` |
-| Hotkey (macOS) | Quick Action `~/Library/Services/ClaudeDock Toggle Awake.workflow` |
-| Hotkey (Windows) | Start Menu shortcut `ClaudeDock Toggle Awake.lnk` |
-
-Nothing else in your settings is touched.
-
----
-
-## 3. Keep-awake: keep Claude working with the lid closed
+## Keep-awake: keep Claude working with the lid closed
 
 Turn keep-awake **ON** before you close the lid or walk away. The computer won't go to sleep, so a long Claude task keeps running and finishes. Turn it **OFF** when you're done.
 
@@ -165,17 +152,17 @@ Turn keep-awake **ON** before you close the lid or walk away. The computer won't
 | ⌨️ **Hotkey: macOS** | **`Ctrl + Option + Cmd + K`**, works in any app |
 | ⌨️ **Hotkey: Windows** | **`Ctrl + Alt + K`**, works anywhere |
 | ⌨️ Hotkey: Linux | Bind `node ~/.claude/claudedock/awake.js toggle --notify` in your desktop's keyboard settings |
-| Toggle in Claude Code | `/claudedock:awake` |
-| Turn on | `/claudedock:awake on` |
-| Turn off | `/claudedock:awake off` |
-| Check | `/claudedock:awake status` |
+| Toggle in Claude Code | `claudedock:awake` |
+| Turn on | `claudedock:awake on` |
+| Turn off | `claudedock:awake off` |
+| Check | `claudedock:awake status` |
 | From any terminal | `node ~/.claude/claudedock/awake.js on` (or `off`, `toggle`, `status`) |
 
 When you press the hotkey, a notification says **ON** or **OFF**, and the status bar shows the yellow **AWAKE** badge while it's on.
 
 ### What it does on each OS
 
-- **macOS:** runs `pmset -a disablesleep 1`, which keeps the Mac awake even with the lid closed on battery. It needs your password, unless you ran `/claudedock:awake nopass`. That adds a sudoers rule allowing **only** `pmset -a disablesleep 0` and `pmset -a disablesleep 1`, nothing else. Removing ClaudeDock removes the rule.
+- **macOS:** runs `pmset -a disablesleep 1`, which keeps the Mac awake even with the lid closed on battery. It needs your password, unless you ran `claudedock:awake nopass`. That adds a sudoers rule allowing **only** `pmset -a disablesleep 0` and `pmset -a disablesleep 1`, nothing else. Removing ClaudeDock removes the rule.
 - **Windows:** sets *"When I close the lid"* to **Do nothing** and sleep to **Never** (via `powercfg`). Your previous values are saved and **restored when you turn it off**. If you get an access error, run the command once from a terminal opened *as Administrator*.
 - **Linux:** holds a `systemd-inhibit` lock for sleep, idle and lid switch. Best effort: some desktops (like GNOME) handle the lid themselves.
 
@@ -185,34 +172,34 @@ The screen still turns off as usual. Only *system sleep* is blocked.
 
 ---
 
-## 4. Side browser: Shorts, Reels and games next to Claude
+## Side browser: Shorts, Reels and games next to Claude
 
 Watch something or play a quick game while Claude works, right next to your terminal.
 
 ```
-/claudedock:browse
+claudedock:browse
 ```
 
 That opens your default page (**Subway Surfers**) on the right side.
 
 | Command | Opens |
 | --- | --- |
-| `/claudedock:browse` | Your default page (Subway Surfers unless you change it) |
-| `/claudedock:browse subway` | [Subway Surfers](https://poki.com/en/g/subway-surfers) on Poki |
-| `/claudedock:browse games` | All [Poki](https://poki.com/en) games |
-| `/claudedock:browse shorts` | YouTube Shorts |
-| `/claudedock:browse reels` | Instagram Reels (log in once) |
-| `/claudedock:browse youtube` | YouTube |
-| `/claudedock:browse tiktok` | TikTok |
-| `/claudedock:browse example.com` | **Any website**: just type the address |
+| `claudedock:browse` | Your default page (Subway Surfers unless you change it) |
+| `claudedock:browse subway` | [Subway Surfers](https://poki.com/en/g/subway-surfers) on Poki |
+| `claudedock:browse games` | All [Poki](https://poki.com/en) games |
+| `claudedock:browse shorts` | YouTube Shorts |
+| `claudedock:browse reels` | Instagram Reels (log in once) |
+| `claudedock:browse youtube` | YouTube |
+| `claudedock:browse tiktok` | TikTok |
+| `claudedock:browse example.com` | **Any website**: just type the address |
 
 ### Change your defaults
 
 ```
-/claudedock:browse default shorts                                    # a preset...
-/claudedock:browse default https://poki.com/en/g/temple-run-2        # ...or any URL
-/claudedock:browse mode auto                                         # auto | pane | window
-/claudedock:browse list                                              # presets + your settings
+claudedock:browse default shorts                                    # a preset...
+claudedock:browse default https://poki.com/en/g/temple-run-2        # ...or any URL
+claudedock:browse mode auto                                         # auto | pane | window
+claudedock:browse list                                              # presets + your settings
 ```
 
 ### Two ways it opens
@@ -226,8 +213,8 @@ That opens your default page (**Subway Surfers**) on the right side.
 Force a mode just once with `--pane` or `--window`:
 
 ```
-/claudedock:browse shorts --window
-/claudedock:browse example.com --pane
+claudedock:browse shorts --window
+claudedock:browse example.com --pane
 ```
 
 **Where pane mode works:** iTerm2, tmux, WezTerm and kitty (with `allow_remote_control yes`) on macOS and Linux. Other terminals (macOS Terminal, Ghostty, VS Code, Windows) get the docked window instead.
@@ -243,7 +230,41 @@ Force a mode just once with `--pane` or `--window`:
 
 ---
 
-## 5. Reload and update
+## Other ways to install
+
+### From the normal terminal (same install, outside Claude Code)
+
+```bash
+cd ~/path/to/your-project
+claude plugin marketplace add suhailroushan13/claudedock
+claude plugin install claudedock@claudedock
+claude -p "/claudedock:setup"
+```
+
+### Without the plugin (status bar + hotkey only)
+
+```bash
+git clone https://github.com/suhailroushan13/claudedock.git
+node claudedock/plugins/claudedock/scripts/install.js
+```
+
+Without the plugin you don't get the `claudedock:` commands. Use the hotkey or `node ~/.claude/claudedock/awake.js on|off` instead.
+
+### What setup changes on your computer
+
+| What | Where |
+| --- | --- |
+| Copies the scripts | `~/.claude/claudedock/` |
+| Sets `statusLine` | `~/.claude/settings.json`. If you already had a status line, it's saved and **restored when you remove ClaudeDock** |
+| One-time settings backup | `~/.claude/settings.json.claudedock-backup` |
+| Hotkey (macOS) | Quick Action `~/Library/Services/ClaudeDock Toggle Awake.workflow` |
+| Hotkey (Windows) | Start Menu shortcut `ClaudeDock Toggle Awake.lnk` |
+
+Nothing else in your settings is touched.
+
+---
+
+## Reload and update
 
 ### Reload (after installing, updating, or editing the plugin)
 
@@ -251,7 +272,7 @@ Force a mode just once with `--pane` or `--window`:
 /reload-plugins
 ```
 
-This reloads every plugin in your current Claude Code session, so new or changed `/claudedock:...` commands work without restarting. You can also just quit and start `claude` again.
+This reloads every plugin in your current Claude Code session, so new or changed `claudedock:` commands work without restarting. You can also just quit and start `claude` again.
 
 ### Update to the newest version
 
@@ -260,7 +281,7 @@ Inside Claude Code:
 ```
 /plugin marketplace update claudedock
 /reload-plugins
-/claudedock:setup
+claudedock:setup
 ```
 
 Or from the terminal:
@@ -271,26 +292,26 @@ claude plugin update claudedock@claudedock
 claude -p "/claudedock:setup"
 ```
 
-> Always run `/claudedock:setup` after updating. It copies the new scripts into `~/.claude/claudedock/`, which is what the status bar actually runs.
+> Always run `claudedock:setup` after updating. It copies the new scripts into `~/.claude/claudedock/`, which is what the status bar actually runs.
 
 ### Turn the bar off for a while (without uninstalling)
 
 ```
-/claudedock:remove
+claudedock:remove
 ```
 
-This removes the status bar and hotkey but keeps the plugin. Run `/claudedock:setup` to bring it back.
+This removes the status bar and hotkey but keeps the plugin. Run `claudedock:setup` to bring it back.
 
 ---
 
-## 6. Remove everything
+## Remove everything
 
 Do these **in order**. Step 1 needs the plugin to still be installed.
 
 ### Step 1: Run the ClaudeDock uninstaller
 
 ```
-/claudedock:remove
+claudedock:remove
 ```
 
 It:
@@ -320,7 +341,7 @@ It:
 /reload-plugins
 ```
 
-The `/claudedock:...` commands are now gone.
+The `claudedock:` commands are now gone.
 
 ### Step 5 (optional): Delete the settings backup
 
@@ -351,7 +372,7 @@ claude plugin marketplace remove claudedock
 rm -f ~/.claude/settings.json.claudedock-backup
 ```
 
-> Already uninstalled the plugin before running `/claudedock:remove`? No problem. Run `node ~/.claude/claudedock/uninstall.js` from a terminal.
+> Already uninstalled the plugin before running `claudedock:remove`? No problem. Run `node ~/.claude/claudedock/uninstall.js` from a terminal.
 
 ### Check that everything is gone
 
@@ -375,42 +396,20 @@ If the files are already gone but keep-awake is still on:
 
 ---
 
-## 7. Command reference
-
-| Command | What it does |
-| --- | --- |
-| `/claudedock:help` | Show every command with a short description |
-| `/claudedock:setup` | Install or refresh the status bar and hotkey |
-| `/claudedock:awake` | Toggle keep-awake |
-| `/claudedock:awake on` / `off` | Turn keep-awake on / off |
-| `/claudedock:awake status` | Show whether keep-awake is on |
-| `/claudedock:awake nopass` | macOS: stop asking for your password when toggling |
-| `/claudedock:browse` | Open your default page (Subway Surfers) on the right side |
-| `/claudedock:browse <preset>` | `subway`, `games`, `shorts`, `reels`, `youtube`, `tiktok` |
-| `/claudedock:browse <url>` | Open any website |
-| `/claudedock:browse <x> --pane` / `--window` | Force the terminal pane or the docked window this time |
-| `/claudedock:browse default <preset or url>` | Change the default page |
-| `/claudedock:browse mode <auto, pane or window>` | Change the default mode |
-| `/claudedock:browse list` | Show presets and your current settings |
-| `/claudedock:remove` | Remove the status bar, hotkey, password rule, browser profile and files |
-| `/reload-plugins` | Reload plugins in the current session |
-| `/plugin` | Open the plugin manager (browse, enable, disable, uninstall) |
-
----
-
-## 8. Troubleshooting
+## Troubleshooting
 
 **The status bar doesn't show up**
-- Run `/claudedock:setup` again, then send a message.
-- Switched Node versions (nvm/asdf)? Re-run `/claudedock:setup` so it picks up the new `node` path.
+- Run `claudedock:setup` again, then send a message.
+- Switched Node versions (nvm/asdf)? Re-run `claudedock:setup` so it picks up the new `node` path.
 - Test the bar by hand:
   ```bash
   echo '{"model":{"id":"claude-opus-5-5"},"effort":{"level":"high"}}' | node ~/.claude/claudedock/statusline.js
   ```
 
-**`/claudedock:setup` says "Unknown command"**
+**`claudedock:` commands don't do anything**
 - Run `/reload-plugins`, or restart `claude`.
 - Check that the plugin is installed and enabled: `/plugin` → **Installed**.
+- Still nothing? Type it with a slash once, like `/claudedock:setup`. If that says "Unknown command", the plugin isn't loaded yet.
 
 **No "Session" part**
 - You're using an API key (not Pro/Max), or Claude hasn't replied yet in this session.
@@ -422,8 +421,8 @@ If the files are already gone but keep-awake is still on:
 **Windows hotkey does nothing**
 - Sign out and back in once, so Windows picks up the new Start Menu shortcut.
 
-**`/claudedock:browse` pane doesn't open**
-- Your terminal can't be split from a script, so use `--window`, or set `/claudedock:browse mode window`.
+**`claudedock:browse` pane doesn't open**
+- Your terminal can't be split from a script, so use `--window`, or set `claudedock:browse mode window`.
 - iTerm2: the first time, macOS may ask to let iTerm2 control itself. Click **OK**.
 - kitty: add `allow_remote_control yes` to `kitty.conf`.
 
@@ -440,7 +439,7 @@ If the files are already gone but keep-awake is still on:
 
 ---
 
-## 9. How it works
+## How it works
 
 - **Status bar:** Claude Code runs `statusline.js` after each message (and every 10 seconds), passing session info as JSON: model, effort, context window, rate limits. The script prints one colored line. It's plain Node, with no dependencies and no network calls, and it never uses tokens.
 - **Keep-awake:** `awake.js` changes the OS sleep setting and saves its state in `~/.claude/claudedock/state.json`. The status bar reads that file to show the **AWAKE** badge.
@@ -453,11 +452,11 @@ claudedock/
 ├── plugins/claudedock/
 │   ├── .claude-plugin/plugin.json      # plugin name + version
 │   ├── commands/
-│   │   ├── help.md                     # /claudedock:help
-│   │   ├── setup.md                    # /claudedock:setup
-│   │   ├── awake.md                    # /claudedock:awake [on|off|status|nopass]
-│   │   ├── browse.md                   # /claudedock:browse [preset|url]
-│   │   └── remove.md                   # /claudedock:remove
+│   │   ├── help.md                     # claudedock:help
+│   │   ├── setup.md                    # claudedock:setup
+│   │   ├── awake.md                    # claudedock:awake [on|off|status|nopass]
+│   │   ├── browse.md                   # claudedock:browse [preset|url]
+│   │   └── remove.md                   # claudedock:remove
 │   └── scripts/
 │       ├── statusline.js               # draws the bar
 │       ├── awake.js                    # keep-awake for macOS / Windows / Linux
@@ -472,7 +471,7 @@ claudedock/
 
 ---
 
-## 10. For developers
+## For developers
 
 **Work on it locally:**
 
@@ -486,7 +485,7 @@ claude plugin install claudedock@claudedock
 After editing:
 
 - Commands (`commands/*.md`): run `/reload-plugins`.
-- Scripts (`scripts/*.js`): run `/claudedock:setup` to copy them to `~/.claude/claudedock/`.
+- Scripts (`scripts/*.js`): run `claudedock:setup` to copy them to `~/.claude/claudedock/`.
 
 **Check before pushing:**
 
@@ -501,7 +500,7 @@ CLAUDEDOCK_DRY_RUN=1 node plugins/claudedock/scripts/browse.js shorts   # prints
 
 **Release a new version:** bump `"version"` in `plugins/claudedock/.claude-plugin/plugin.json`, then commit and push. Users get it with the [update steps](#update-to-the-newest-version).
 
-**Customize the bar:** edit `plugins/claudedock/scripts/statusline.js` (colors, segments, bar width), then run `/claudedock:setup`.
+**Customize the bar:** edit `plugins/claudedock/scripts/statusline.js` (colors, segments, bar width), then run `claudedock:setup`.
 
 ---
 

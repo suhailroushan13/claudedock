@@ -48,9 +48,16 @@ async function main() {
     }
   }
 
-  // 5. Files.
-  fs.rmSync(APP_DIR, { recursive: true, force: true });
-  out.push(`  Files      : deleted ${APP_DIR}`);
+  // 5. Close the ClaudeDock side browser if it's open (its profile lives in APP_DIR).
+  if (process.platform !== 'win32') L.run('pkill', ['-f', L.path.join(APP_DIR, 'browser-profile')]);
+
+  // 6. Files (status bar scripts, keep-awake state, browser settings and logins).
+  try {
+    fs.rmSync(APP_DIR, { recursive: true, force: true });
+    out.push(`  Files      : deleted ${APP_DIR}`);
+  } catch (err) {
+    out.push(`  Files      : could not delete ${APP_DIR} (${err.code}). Close the ClaudeDock browser and delete it by hand.`);
+  }
 
   out.push(
     '',

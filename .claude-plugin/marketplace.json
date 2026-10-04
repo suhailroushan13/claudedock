@@ -1,6 +1,6 @@
 {
   "name": "claudedock",
-  "description": "ClaudeDock: a custom Claude Code status bar plus a keep-awake (lid-closed) toggle",
+  "description": "ClaudeDock: a Claude Code status bar, keep-awake toggle and side browser",
   "owner": {
     "name": "suhailroushan13"
   },
@@ -8,7 +8,7 @@
     {
       "name": "claudedock",
       "source": "./plugins/claudedock",
-      "description": "Status bar with model, effort, session limit progress and context usage, plus a keep-awake toggle so sessions keep running with the lid closed"
+      "description": "Status bar (model, effort, session limit, context), keep-awake toggle for lid-closed sessions, and a side browser for shorts, reels and games"
     }
   ]
 }

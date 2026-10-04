@@ -1,7 +1,7 @@
 {
   "name": "claudedock",
-  "version": "1.0.0",
-  "description": "Status bar with model, effort, session limit progress and context usage, plus a keep-awake toggle so sessions keep running with the lid closed",
+  "version": "1.1.0",
+  "description": "Status bar (model, effort, session limit, context), keep-awake toggle for lid-closed sessions, and a side browser for shorts, reels and games",
   "author": {
     "name": "suhailroushan13"
   },
@@ -10,7 +10,8 @@
     "statusline",
     "status-bar",
     "keep-awake",
-    "caffeinate"
+    "browser",
+    "carbonyl"
   ],
   "homepage": "https://github.com/suhailroushan13/claudedock",
   "repository": "https://github.com/suhailroushan13/claudedock"

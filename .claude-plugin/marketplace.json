@@ -8,7 +8,7 @@
     {
       "name": "claudedock",
       "source": "./plugins/claudedock",
-      "description": "Status bar (model, effort, session limit, context), keep-awake toggle for lid-closed sessions, and a side browser for shorts, reels and games"
+      "description": "Status bar (model, effort, git branch, session limit, context health), keep-awake toggle for lid-closed sessions, and a side browser for shorts, reels and games"
     }
   ]
 }

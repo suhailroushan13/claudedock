@@ -2,20 +2,21 @@
 
 **Three tools for [Claude Code](https://code.claude.com) in one plugin:**
 
-- 📊 **Status bar:** model, effort, session usage and context, always visible
+- 📊 **Status bar:** model, effort, git branch, session usage and context health, always visible
 - ☕ **Keep-awake:** your Claude session keeps running when you close the laptop lid
 - 📺 **Side browser:** watch Shorts or Reels, or play Subway Surfers, on the right side while Claude works
 
 ```
-Opus 5.5 xhigh │ Session ██████░░░░ 58% ↻ 2h13m │ Context ███░░░░░░░ 61.2k/200k (31%) │ AWAKE 1h05m
+Opus 5.5 xhigh │ ⎇ main │ Session ██████░░░░ 58% ↻ 2h13m │ Context ████████░░ 82% (820k/1M) ⚠ │ AWAKE 1h05m
 ```
 
 | Segment | What it shows |
 | --- | --- |
 | **Model** | The model you're using, like `Opus 5.5`, `Sonnet 5.5` or `Haiku 4.5` |
 | **Effort** | Current effort level: `low` · `medium` · `high` · `xhigh` · `max` (plus `fast` when fast mode is on) |
+| **Branch** | Current git branch, like `⎇ main`, when you're inside a git repo. Shows a short commit hash on a detached HEAD, and is hidden outside repos |
 | **Session** | How much of your current 5-hour usage session you've used, as a progress bar, plus the time until it resets (`↻ 2h13m`). Green below 50%, yellow below 80%, red above |
-| **Context** | Tokens in the context window out of the total, like `61.2k/200k`, plus the percentage |
+| **Context** | Context health: a bar plus the percentage of the context window used, then used/total tokens like `(820k/1M)`. **Green** below 50%, **yellow** below 80%, **red with ⚠** at 80% and above, so you know when to `/compact` or start fresh. Especially handy with 1M context windows |
 | **AWAKE** | A yellow badge while keep-awake is on, so you never forget it |
 
 The bar adapts to your terminal width: full bars when wide, shorter bars when medium, plain numbers when narrow.

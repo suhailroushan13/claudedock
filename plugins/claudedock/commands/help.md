@@ -9,7 +9,7 @@ Show the user exactly the following, as-is, without running anything:
 | Command | What it does |
 | --- | --- |
 | `/claudedock:help` | Show this list |
-| `/claudedock:setup` | Turn on the status bar (model, effort, session %, context) and create the keep-awake hotkey. Run again after updating |
+| `/claudedock:setup` | Turn on the status bar (model, effort, git branch, session %, context health) and create the keep-awake hotkey. Run again after updating |
 | `/claudedock:awake` | Toggle keep-awake: the computer won't sleep, even with the lid closed, so Claude keeps working |
 | `/claudedock:awake on` / `off` | Turn keep-awake on / off |
 | `/claudedock:awake status` | Show whether keep-awake is on |

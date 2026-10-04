@@ -1,7 +1,7 @@
 {
   "name": "claudedock",
-  "version": "1.1.0",
-  "description": "Status bar (model, effort, session limit, context), keep-awake toggle for lid-closed sessions, and a side browser for shorts, reels and games",
+  "version": "1.2.0",
+  "description": "Status bar (model, effort, git branch, session limit, context health), keep-awake toggle for lid-closed sessions, and a side browser for shorts, reels and games",
   "author": {
     "name": "suhailroushan13"
   },

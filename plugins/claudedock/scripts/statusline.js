@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 // ClaudeDock status line. Claude Code pipes session JSON on stdin; we print one line.
-// Shows: model · effort │ 5-hour session limit progress │ context used/total │ AWAKE badge
+// Shows: model · effort │ git branch │ 5-hour session limit progress │ context health │ AWAKE badge
 // Self-contained on purpose (runs on every update, must be fast and never crash).
 
 const fs = require('fs');
@@ -20,6 +20,7 @@ const magenta = paint('35');
 const yellow = paint('33');
 const green = paint('32');
 const red = paint('31');
+const blue = paint('34');
 const badge = paint('30;43;1'); // black on yellow
 
 function readInput() {
@@ -68,6 +69,39 @@ function fmtDuration(sec) {
   return `${m}m`;
 }
 
+// Current git branch, read straight from .git/HEAD (no `git` process, so it stays fast).
+// Handles worktrees/submodules (.git file with "gitdir:") and detached HEAD (short SHA).
+function gitBranch(dir) {
+  try {
+    let cur = path.resolve(dir);
+    for (;;) {
+      const dotGit = path.join(cur, '.git');
+      let stat = null;
+      try {
+        stat = fs.statSync(dotGit);
+      } catch {}
+      if (stat) {
+        let gitDir = dotGit;
+        if (stat.isFile()) {
+          const m = fs.readFileSync(dotGit, 'utf8').match(/^gitdir:\s*(.+)$/m);
+          if (!m) return null;
+          gitDir = path.resolve(cur, m[1].trim());
+        }
+        const head = fs.readFileSync(path.join(gitDir, 'HEAD'), 'utf8').trim();
+        const ref = head.match(/^ref:\s*refs\/heads\/(.+)$/);
+        return ref ? ref[1] : head.slice(0, 7);
+      }
+      const parent = path.dirname(cur);
+      if (parent === cur) return null;
+      cur = parent;
+    }
+  } catch {
+    return null;
+  }
+}
+
+const truncate = (s, max) => (s.length > max ? s.slice(0, max - 1) + '…' : s);
+
 function awakeState() {
   try {
     const s = JSON.parse(fs.readFileSync(STATE_FILE, 'utf8'));
@@ -92,7 +126,14 @@ function main() {
   if (d.fast_mode) model += ' ' + yellow('fast');
   parts.push(model);
 
-  // 2. Session progress: the 5-hour usage window (Pro/Max, after the first reply)
+  // 2. Git branch (only inside a git repo)
+  const branch = (d.worktree && d.worktree.branch) || gitBranch((d.workspace && d.workspace.current_dir) || d.cwd || process.cwd());
+  if (branch) {
+    const max = tier === 'wide' ? 28 : tier === 'medium' ? 18 : 12;
+    parts.push(blue(`⎇ ${truncate(branch, max)}`));
+  }
+
+  // 3. Session progress: the 5-hour usage window (Pro/Max, after the first reply)
   const five = d.rate_limits && d.rate_limits.five_hour;
   if (five && typeof five.used_percentage === 'number') {
     const pct = Math.round(five.used_percentage);
@@ -106,22 +147,24 @@ function main() {
     }
   }
 
-  // 3. Context used / total
+  // 4. Context health: bar + percentage colored green/yellow/red, ⚠ from 80% up
   const cw = d.context_window || {};
   const size = Number(cw.context_window_size) || 0;
   if (size) {
     const used = Number(cw.total_input_tokens) || 0;
     const pct = Math.round(typeof cw.used_percentage === 'number' ? cw.used_percentage : (used / size) * 100);
     const amount = `${fmtTokens(used)}/${fmtTokens(size)}`;
+    const warn = pct >= 80 ? ' ' + paint('1;31')('⚠') : '';
     if (tier === 'narrow') {
-      parts.push(`${dim('C')} ${pctColor(pct)(amount)}`);
+      parts.push(`${dim('C')} ${pctColor(pct)(`${pct}%`)}${warn}`);
     } else {
       const label = tier === 'wide' ? 'Context' : 'Ctx';
-      parts.push(`${dim(label)} ${bar(pct, barW)} ${bold(amount)} ${dim(`(${pct}%)`)}`);
+      const pctText = pctColor(pct)(`${pct}%`);
+      parts.push(`${dim(label)} ${bar(pct, barW)} ${pct >= 50 ? bold(pctText) : pctText} ${dim(`(${amount})`)}${warn}`);
     }
   }
 
-  // 4. Keep-awake badge, so you never forget it is on
+  // 5. Keep-awake badge, so you never forget it is on
   const awake = awakeState();
   if (awake) {
     const since = awake.since ? ' ' + fmtDuration((Date.now() - awake.since) / 1000) : '';

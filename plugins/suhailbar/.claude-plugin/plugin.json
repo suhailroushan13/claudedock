@@ -1,0 +1,17 @@
+{
+  "name": "suhailbar",
+  "version": "1.0.0",
+  "description": "Status bar with model, effort, session limit progress and context usage, plus a keep-awake toggle so sessions keep running with the lid closed",
+  "author": {
+    "name": "suhailroushan13"
+  },
+  "license": "MIT",
+  "keywords": [
+    "statusline",
+    "status-bar",
+    "keep-awake",
+    "caffeinate"
+  ],
+  "homepage": "https://github.com/suhailroushan13/suhailbarplugin",
+  "repository": "https://github.com/suhailroushan13/suhailbarplugin"
+}

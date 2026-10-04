@@ -38,7 +38,7 @@ function macNopass() {
   const tmp = path.join(os.tmpdir(), `claudedock-sudoers-${process.pid}`);
   fs.writeFileSync(
     tmp,
-    `# Added by ClaudeDock (removed by /claudedock:remove)\n` +
+    `# Added by ClaudeDock (removed by claudedock:remove)\n` +
       `${user} ALL=(root) NOPASSWD: ${PMSET} -a disablesleep 0, ${PMSET} -a disablesleep 1\n`
   );
   try {
@@ -153,7 +153,7 @@ async function setAwake(target) {
   return { changed: true, on: target };
 }
 
-const offHint = () => `Turn it off with /claudedock:awake off${process.platform === 'linux' ? '' : ` or ${HOTKEY_LABEL[process.platform]}`}.`;
+const offHint = () => `Turn it off with claudedock:awake off${process.platform === 'linux' ? '' : ` or ${HOTKEY_LABEL[process.platform]}`}.`;
 
 function describe({ changed, on }) {
   if (on) {
@@ -182,7 +182,7 @@ async function main() {
     const on = currentlyOn(state);
     console.log(`Keep-awake is ${on ? 'ON' : 'OFF'}.${on && state.since ? ` On since ${new Date(state.since).toLocaleTimeString()}.` : ''}`);
     if (process.platform === 'darwin') {
-      console.log(fs.existsSync(SUDOERS) ? 'Passwordless toggling: enabled.' : 'Passwordless toggling: off (run /claudedock:awake nopass to enable).');
+      console.log(fs.existsSync(SUDOERS) ? 'Passwordless toggling: enabled.' : 'Passwordless toggling: off (run claudedock:awake nopass to enable).');
     }
     return;
   }

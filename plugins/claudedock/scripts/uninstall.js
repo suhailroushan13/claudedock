@@ -20,7 +20,7 @@ async function main() {
       await setAwake(false);
       out.push('  Keep-awake : turned OFF, normal sleep restored');
     } catch (err) {
-      throw new Error(`could not turn keep-awake off (${err.message}). Run /claudedock:awake off, then try again.`);
+      throw new Error(`could not turn keep-awake off (${err.message}). Run claudedock:awake off, then try again.`);
     }
   }
 

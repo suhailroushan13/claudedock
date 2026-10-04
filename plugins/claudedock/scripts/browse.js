@@ -255,7 +255,7 @@ function main() {
     resolveUrl(words[1]); // validate
     config.defaultUrl = PRESETS[words[1].toLowerCase()] ? words[1].toLowerCase() : resolveUrl(words[1]);
     saveConfig(config);
-    return console.log(`Default URL is now ${config.defaultUrl}. Run /claudedock:browse to open it.`);
+    return console.log(`Default URL is now ${config.defaultUrl}. Run claudedock:browse to open it.`);
   }
 
   if (first === 'mode') {

@@ -54,13 +54,13 @@ function main() {
     'ClaudeDock installed.',
     `  Status bar : ON. It appears after Claude's next reply (no restart needed).`,
     `  Files      : ${APP_DIR}`,
-    `  Keep-awake : /claudedock:awake [on|off|status]   (or: node "${awakeScript}" on)`,
+    `  Keep-awake : claudedock:awake [on|off|status]   (or: node "${awakeScript}" on)`,
     `  Hotkey     : ${hotkeyResult}`,
   ];
   if (process.platform === 'darwin') {
-    lines.push('  macOS tip  : run /claudedock:awake nopass once so the toggle stops asking for your password.');
+    lines.push('  macOS tip  : run claudedock:awake nopass once so the toggle stops asking for your password.');
   }
-  lines.push(`  Remove     : /claudedock:remove   (or: node "${path.join(APP_DIR, 'uninstall.js')}")`);
+  lines.push(`  Remove     : claudedock:remove   (or: node "${path.join(APP_DIR, 'uninstall.js')}")`);
   console.log(lines.join('\n'));
 }
 

@@ -1,5 +1,5 @@
 {
-  "name": "suhailbar",
+  "name": "claudedock",
   "version": "1.0.0",
   "description": "Status bar with model, effort, session limit progress and context usage, plus a keep-awake toggle so sessions keep running with the lid closed",
   "author": {
@@ -12,6 +12,6 @@
     "keep-awake",
     "caffeinate"
   ],
-  "homepage": "https://github.com/suhailroushan13/suhailbarplugin",
-  "repository": "https://github.com/suhailroushan13/suhailbarplugin"
+  "homepage": "https://github.com/suhailroushan13/claudedock",
+  "repository": "https://github.com/suhailroushan13/claudedock"
 }

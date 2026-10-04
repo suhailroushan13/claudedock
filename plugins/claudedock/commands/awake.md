@@ -4,7 +4,7 @@ argument-hint: "[on|off|status|nopass]"
 allowed-tools: Bash(node:*)
 ---
 
-The SuhailBar keep-awake command just ran (no argument means toggle). Its output:
+The ClaudeDock keep-awake command just ran (no argument means toggle). Its output:
 
 !`node "${CLAUDE_PLUGIN_ROOT}/scripts/awake.js" $ARGUMENTS`
 

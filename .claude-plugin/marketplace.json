@@ -1,13 +1,13 @@
 {
-  "name": "suhailbarplugin",
-  "description": "SuhailBar: a custom Claude Code status bar plus a keep-awake (lid-closed) toggle",
+  "name": "claudedock",
+  "description": "ClaudeDock: a custom Claude Code status bar plus a keep-awake (lid-closed) toggle",
   "owner": {
     "name": "suhailroushan13"
   },
   "plugins": [
     {
-      "name": "suhailbar",
-      "source": "./plugins/suhailbar",
+      "name": "claudedock",
+      "source": "./plugins/claudedock",
       "description": "Status bar with model, effort, session limit progress and context usage, plus a keep-awake toggle so sessions keep running with the lid closed"
     }
   ]

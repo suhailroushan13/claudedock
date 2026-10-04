@@ -1,9 +1,9 @@
 ---
-description: Remove SuhailBar (restores your old status line, turns keep-awake off, deletes the hotkey)
+description: Remove ClaudeDock (restores your old status line, turns keep-awake off, deletes the hotkey)
 allowed-tools: Bash(node:*)
 ---
 
-The SuhailBar uninstaller just ran. Its output:
+The ClaudeDock uninstaller just ran. Its output:
 
 !`node "${CLAUDE_PLUGIN_ROOT}/scripts/uninstall.js"`
 

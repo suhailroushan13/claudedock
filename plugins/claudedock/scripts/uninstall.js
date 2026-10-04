@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
-// SuhailBar uninstaller: turns keep-awake off (restoring power settings), removes
-// the hotkey, restores your previous status line and deletes ~/.claude/suhailbar.
+// ClaudeDock uninstaller: turns keep-awake off (restoring power settings), removes
+// the hotkey, restores your previous status line and deletes ~/.claude/claudedock.
 
 const L = require('./lib');
 const hotkey = require('./hotkey');
@@ -9,7 +9,7 @@ const { setAwake, macRemoveNopass, SUDOERS } = require('./awake');
 const { fs, APP_DIR, STATE_FILE, PREV_STATUSLINE_FILE } = L;
 
 async function main() {
-  const out = ['SuhailBar removed.'];
+  const out = ['ClaudeDock removed.'];
 
   // Read settings first: a broken settings.json stops us before anything changes.
   const settings = L.readSettings();
@@ -20,7 +20,7 @@ async function main() {
       await setAwake(false);
       out.push('  Keep-awake : turned OFF, normal sleep restored');
     } catch (err) {
-      throw new Error(`could not turn keep-awake off (${err.message}). Run /suhailbar:awake off, then try again.`);
+      throw new Error(`could not turn keep-awake off (${err.message}). Run /claudedock:awake off, then try again.`);
     }
   }
 
@@ -55,13 +55,13 @@ async function main() {
   out.push(
     '',
     'If you installed it as a plugin, also run in Claude Code:',
-    '  /plugin uninstall suhailbar@suhailbarplugin',
-    '  /plugin marketplace remove suhailbarplugin'
+    '  /plugin uninstall claudedock@claudedock',
+    '  /plugin marketplace remove claudedock'
   );
   console.log(out.join('\n'));
 }
 
 main().catch((err) => {
-  console.error(`SuhailBar uninstall stopped: ${err.message}`);
+  console.error(`ClaudeDock uninstall stopped: ${err.message}`);
   process.exit(1);
 });

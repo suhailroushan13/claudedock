@@ -1,9 +1,9 @@
 ---
-description: Install the SuhailBar status bar and the keep-awake hotkey
+description: Install the ClaudeDock status bar and the keep-awake hotkey
 allowed-tools: Bash(node:*)
 ---
 
-The SuhailBar installer just ran. Its output:
+The ClaudeDock installer just ran. Its output:
 
 !`node "${CLAUDE_PLUGIN_ROOT}/scripts/install.js" $ARGUMENTS`
 

@@ -223,7 +223,7 @@ function macRemove() {
   const existed = fs.existsSync(MAC_WORKFLOW);
   fs.rmSync(MAC_WORKFLOW, { recursive: true, force: true });
   // Drop only our entry from the pbs NSServicesStatus dictionary
-  const tmp = path.join(os.tmpdir(), `suhailbar-pbs-${process.pid}.plist`);
+  const tmp = path.join(os.tmpdir(), `claudedock-pbs-${process.pid}.plist`);
   if (run('defaults', ['export', 'pbs', tmp]).status === 0) {
     if (run('plutil', ['-remove', `NSServicesStatus.${MAC_PBS_KEY}`, tmp]).status === 0) {
       run('defaults', ['import', 'pbs', tmp]);
@@ -242,7 +242,7 @@ function winInstall(awakePath) {
     `$s.Arguments = '"${q(awakePath)}" toggle --notify'`,
     `$s.Hotkey = 'CTRL+ALT+K'`,
     `$s.WindowStyle = 7`,
-    `$s.Description = 'SuhailBar: toggle keep-awake'`,
+    `$s.Description = 'ClaudeDock: toggle keep-awake'`,
     `$s.Save()`,
   ].join('; ');
   const r = run('powershell', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command', ps]);

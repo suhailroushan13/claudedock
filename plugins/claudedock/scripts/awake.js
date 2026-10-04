@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-// SuhailBar keep-awake: stops the computer from sleeping (even with the lid closed)
+// ClaudeDock keep-awake: stops the computer from sleeping (even with the lid closed)
 // so a running Claude Code session keeps working.
 //
 //   node awake.js [toggle|on|off|status|nopass] [--notify]
@@ -13,14 +13,14 @@ const { spawn } = require('child_process');
 const L = require('./lib');
 const { fs, os, path, STATE_FILE, HOTKEY_LABEL, run, macAdminShell, notify, readJSON, writeJSON } = L;
 
-const DRY_RUN = process.env.SUHAILBAR_DRY_RUN === '1'; // for testing: change state only, not the OS
+const DRY_RUN = process.env.CLAUDEDOCK_DRY_RUN === '1'; // for testing: change state only, not the OS
 
 const loadState = () => readJSON(STATE_FILE, { awake: false });
 const saveState = (s) => writeJSON(STATE_FILE, s);
 
 // ---------------------------------------------------------------- macOS
 const PMSET = '/usr/bin/pmset';
-const SUDOERS = '/etc/sudoers.d/suhailbar';
+const SUDOERS = '/etc/sudoers.d/claudedock';
 
 const mac = {
   isOn: () => /SleepDisabled\s+1/.test(run(PMSET, ['-g']).stdout || ''),
@@ -28,23 +28,23 @@ const mac = {
     const v = on ? '1' : '0';
     // Passwordless if `nopass` was run (sudoers rule limited to exactly these two commands)
     if (run('/usr/bin/sudo', ['-n', PMSET, '-a', 'disablesleep', v]).status === 0) return;
-    macAdminShell(`${PMSET} -a disablesleep ${v}`, `SuhailBar wants to turn keep-awake ${on ? 'ON' : 'OFF'}.`);
+    macAdminShell(`${PMSET} -a disablesleep ${v}`, `ClaudeDock wants to turn keep-awake ${on ? 'ON' : 'OFF'}.`);
   },
 };
 
 function macNopass() {
   const user = os.userInfo().username;
   if (!/^[A-Za-z0-9._-]+$/.test(user)) throw new Error(`unexpected username "${user}"`);
-  const tmp = path.join(os.tmpdir(), `suhailbar-sudoers-${process.pid}`);
+  const tmp = path.join(os.tmpdir(), `claudedock-sudoers-${process.pid}`);
   fs.writeFileSync(
     tmp,
-    `# Added by SuhailBar (removed by /suhailbar:remove)\n` +
+    `# Added by ClaudeDock (removed by /claudedock:remove)\n` +
       `${user} ALL=(root) NOPASSWD: ${PMSET} -a disablesleep 0, ${PMSET} -a disablesleep 1\n`
   );
   try {
     macAdminShell(
       `/usr/sbin/visudo -cf '${tmp}' && /usr/bin/install -m 0440 -o root -g wheel '${tmp}' ${SUDOERS}`,
-      'SuhailBar wants to let you toggle keep-awake without typing your password every time.'
+      'ClaudeDock wants to let you toggle keep-awake without typing your password every time.'
     );
   } finally {
     fs.rmSync(tmp, { force: true });
@@ -53,7 +53,7 @@ function macNopass() {
 
 function macRemoveNopass() {
   if (!fs.existsSync(SUDOERS)) return false;
-  macAdminShell(`/bin/rm -f ${SUDOERS}`, 'SuhailBar wants to remove its passwordless keep-awake rule.');
+  macAdminShell(`/bin/rm -f ${SUDOERS}`, 'ClaudeDock wants to remove its passwordless keep-awake rule.');
   return true;
 }
 
@@ -106,7 +106,7 @@ const linux = {
     if (on) {
       const child = spawn(
         'systemd-inhibit',
-        ['--what=sleep:idle:handle-lid-switch', '--who=SuhailBar', '--why=Keep Claude Code running', '--mode=block', 'sleep', 'infinity'],
+        ['--what=sleep:idle:handle-lid-switch', '--who=ClaudeDock', '--why=Keep Claude Code running', '--mode=block', 'sleep', 'infinity'],
         { detached: true, stdio: 'ignore' }
       );
       child.on('error', () => {});
@@ -153,7 +153,7 @@ async function setAwake(target) {
   return { changed: true, on: target };
 }
 
-const offHint = () => `Turn it off with /suhailbar:awake off${process.platform === 'linux' ? '' : ` or ${HOTKEY_LABEL[process.platform]}`}.`;
+const offHint = () => `Turn it off with /claudedock:awake off${process.platform === 'linux' ? '' : ` or ${HOTKEY_LABEL[process.platform]}`}.`;
 
 function describe({ changed, on }) {
   if (on) {
@@ -182,7 +182,7 @@ async function main() {
     const on = currentlyOn(state);
     console.log(`Keep-awake is ${on ? 'ON' : 'OFF'}.${on && state.since ? ` On since ${new Date(state.since).toLocaleTimeString()}.` : ''}`);
     if (process.platform === 'darwin') {
-      console.log(fs.existsSync(SUDOERS) ? 'Passwordless toggling: enabled.' : 'Passwordless toggling: off (run /suhailbar:awake nopass to enable).');
+      console.log(fs.existsSync(SUDOERS) ? 'Passwordless toggling: enabled.' : 'Passwordless toggling: off (run /claudedock:awake nopass to enable).');
     }
     return;
   }
@@ -209,7 +209,7 @@ module.exports = { setAwake, macRemoveNopass, SUDOERS };
 
 if (require.main === module) {
   main().catch((err) => {
-    console.error(`SuhailBar: ${err.message}`);
+    console.error(`ClaudeDock: ${err.message}`);
     if (process.argv.includes('--notify')) notify(`Failed: ${err.message}`);
     process.exit(1);
   });

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-// SuhailBar installer: copies the scripts to ~/.claude/suhailbar, points the
+// ClaudeDock installer: copies the scripts to ~/.claude/claudedock, points the
 // Claude Code statusLine at them and sets up the keep-awake hotkey.
 //
 //   node install.js [--no-hotkey]
@@ -31,7 +31,7 @@ function main() {
     fs.rmSync(PREV_STATUSLINE_FILE, { force: true });
   }
 
-  const backup = `${SETTINGS_FILE}.suhailbar-backup`;
+  const backup = `${SETTINGS_FILE}.claudedock-backup`;
   if (fs.existsSync(SETTINGS_FILE) && !fs.existsSync(backup)) fs.copyFileSync(SETTINGS_FILE, backup);
 
   // Windows: bare `node` works in both Git Bash and PowerShell. macOS/Linux: the
@@ -51,22 +51,22 @@ function main() {
   const hotkeyResult = process.argv.includes('--no-hotkey') ? 'skipped (--no-hotkey)' : hotkey.install(process.execPath, awakeScript);
 
   const lines = [
-    'SuhailBar installed.',
+    'ClaudeDock installed.',
     `  Status bar : ON. It appears after Claude's next reply (no restart needed).`,
     `  Files      : ${APP_DIR}`,
-    `  Keep-awake : /suhailbar:awake [on|off|status]   (or: node "${awakeScript}" on)`,
+    `  Keep-awake : /claudedock:awake [on|off|status]   (or: node "${awakeScript}" on)`,
     `  Hotkey     : ${hotkeyResult}`,
   ];
   if (process.platform === 'darwin') {
-    lines.push('  macOS tip  : run /suhailbar:awake nopass once so the toggle stops asking for your password.');
+    lines.push('  macOS tip  : run /claudedock:awake nopass once so the toggle stops asking for your password.');
   }
-  lines.push(`  Remove     : /suhailbar:remove   (or: node "${path.join(APP_DIR, 'uninstall.js')}")`);
+  lines.push(`  Remove     : /claudedock:remove   (or: node "${path.join(APP_DIR, 'uninstall.js')}")`);
   console.log(lines.join('\n'));
 }
 
 try {
   main();
 } catch (err) {
-  console.error(`SuhailBar install failed: ${err.message}`);
+  console.error(`ClaudeDock install failed: ${err.message}`);
   process.exit(1);
 }

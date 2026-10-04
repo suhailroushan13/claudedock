@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-// SuhailBar status line. Claude Code pipes session JSON on stdin; we print one line.
+// ClaudeDock status line. Claude Code pipes session JSON on stdin; we print one line.
 // Shows: model · effort │ 5-hour session limit progress │ context used/total │ AWAKE badge
 // Self-contained on purpose (runs on every update, must be fast and never crash).
 
@@ -8,7 +8,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const APP_DIR = path.join(process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude'), 'suhailbar');
+const APP_DIR = path.join(process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude'), 'claudedock');
 const STATE_FILE = path.join(APP_DIR, 'state.json');
 
 const useColor = !process.env.NO_COLOR;
@@ -134,5 +134,5 @@ function main() {
 try {
   main();
 } catch {
-  process.stdout.write('SuhailBar\n');
+  process.stdout.write('ClaudeDock\n');
 }

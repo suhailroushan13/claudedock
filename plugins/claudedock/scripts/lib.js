@@ -1,5 +1,5 @@
 'use strict';
-// Shared paths and helpers for SuhailBar. No dependencies: Node built-ins only.
+// Shared paths and helpers for ClaudeDock. No dependencies: Node built-ins only.
 
 const fs = require('fs');
 const os = require('os');
@@ -8,7 +8,7 @@ const { execFileSync, spawnSync } = require('child_process');
 
 const HOME = os.homedir();
 const CLAUDE_DIR = process.env.CLAUDE_CONFIG_DIR || path.join(HOME, '.claude');
-const APP_DIR = path.join(CLAUDE_DIR, 'suhailbar');           // stable install location
+const APP_DIR = path.join(CLAUDE_DIR, 'claudedock');           // stable install location
 const STATE_FILE = path.join(APP_DIR, 'state.json');          // keep-awake state
 const PREV_STATUSLINE_FILE = path.join(APP_DIR, 'previous-statusline.json');
 const SETTINGS_FILE = path.join(CLAUDE_DIR, 'settings.json');
@@ -20,7 +20,7 @@ const HOTKEY_LABEL = {
 };
 
 // macOS Quick Action (gives us a system-wide hotkey without extra apps)
-const MAC_SERVICE_NAME = 'SuhailBar Toggle Awake';
+const MAC_SERVICE_NAME = 'ClaudeDock Toggle Awake';
 const MAC_WORKFLOW = path.join(HOME, 'Library', 'Services', `${MAC_SERVICE_NAME}.workflow`);
 const MAC_PBS_KEY = `(null) - ${MAC_SERVICE_NAME} - runWorkflowAsService`;
 const MAC_KEY_EQUIVALENT = '@~^k'; // @ = Cmd, ~ = Option, ^ = Control
@@ -68,7 +68,7 @@ function writeSettings(settings) {
 const toSlash = (p) => p.replace(/\\/g, '/');
 
 function isOurStatusLine(statusLine) {
-  return Boolean(statusLine && typeof statusLine.command === 'string' && /suhailbar[\\/]+statusline\.js/.test(statusLine.command));
+  return Boolean(statusLine && typeof statusLine.command === 'string' && /claudedock[\\/]+statusline\.js/.test(statusLine.command));
 }
 
 function run(cmd, args, opts = {}) {
@@ -92,15 +92,15 @@ function macAdminShell(shellCmd, prompt) {
 function notify(message) {
   try {
     if (process.platform === 'darwin') {
-      run('/usr/bin/osascript', ['-e', `display notification ${asString(message)} with title "SuhailBar"`]);
+      run('/usr/bin/osascript', ['-e', `display notification ${asString(message)} with title "ClaudeDock"`]);
     } else if (process.platform === 'linux') {
-      run('notify-send', ['SuhailBar', message]);
+      run('notify-send', ['ClaudeDock', message]);
     } else if (process.platform === 'win32') {
       const msg = message.replace(/'/g, "''");
       const ps =
         "Add-Type -AssemblyName System.Windows.Forms; $n = New-Object System.Windows.Forms.NotifyIcon; " +
         "$n.Icon = [System.Drawing.SystemIcons]::Information; $n.Visible = $true; " +
-        `$n.ShowBalloonTip(4000, 'SuhailBar', '${msg}', 'Info'); Start-Sleep -Seconds 5; $n.Dispose()`;
+        `$n.ShowBalloonTip(4000, 'ClaudeDock', '${msg}', 'Info'); Start-Sleep -Seconds 5; $n.Dispose()`;
       run('powershell', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command', ps]);
     }
   } catch {

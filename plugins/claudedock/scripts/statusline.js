@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 // ClaudeDock status line. Claude Code pipes session JSON on stdin; we print one line.
-// Shows: model · effort │ git branch │ 5-hour session limit progress │ context health │ AWAKE badge
+// Shows: model · effort │ git branch │ 5-hour session limit progress │ context health │ AWAKE badge │ claudedock:help
 // Self-contained on purpose (runs on every update, must be fast and never crash).
 
 const fs = require('fs');
@@ -10,9 +10,13 @@ const path = require('path');
 
 const APP_DIR = path.join(process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude'), 'claudedock');
 const STATE_FILE = path.join(APP_DIR, 'state.json');
+const HELP_URL = 'https://github.com/suhailroushan13/claudedock#change-anything-with-claudedock';
 
 const useColor = !process.env.NO_COLOR;
 const paint = (code) => (s) => (useColor ? `\x1b[${code}m${s}\x1b[0m` : s);
+// OSC 8 hyperlink: Cmd/Ctrl+click opens the URL in terminals that support it (iTerm2, kitty, WezTerm)
+const link = (url, s) => (useColor ? `\x1b]8;;${url}\x07${s}\x1b]8;;\x07` : s);
+const visibleWidth = (s) => s.replace(/\x1b\[[0-9;]*m/g, '').replace(/\x1b\]8;;[^\x07]*\x07/g, '').length;
 const dim = paint('2');
 const bold = paint('1');
 const cyan = paint('1;36');
@@ -171,7 +175,13 @@ function main() {
     parts.push(badge(` AWAKE${tier === 'narrow' ? '' : since} `));
   }
 
-  process.stdout.write(parts.join(dim(' │ ')) + '\n');
+  // 6. Help hint at the right end, only when it fits (it's the first thing dropped when the row is full)
+  const sep = dim(' │ ');
+  let line = parts.join(sep);
+  const help = 'claudedock:help';
+  if (visibleWidth(line) + visibleWidth(sep) + help.length <= cols - 4) line += sep + link(HELP_URL, dim(help));
+
+  process.stdout.write(line + '\n');
 }
 
 try {

@@ -7,7 +7,7 @@
 - 📺 **Side browser:** watch Shorts or Reels, or play Subway Surfers, on the right side while Claude works
 
 ```
-Opus 5.5 xhigh │ ⎇ main │ Session ██████░░░░ 58% ↻ 2h13m │ Context ████████░░ 82% (820k/1M) ⚠ │ AWAKE 1h05m
+Opus 5.5 xhigh │ ⎇ main │ Session ██████░░░░ 58% ↻ 2h13m │ Context ████████░░ 82% (820k/1M) ⚠ │ claudedock:help
 ```
 
 ---
@@ -74,6 +74,8 @@ Type `hi`. The status bar appears at the bottom of Claude Code after Claude repl
 claudedock:help
 ```
 
+You don't need to remember this one: it's always shown at the right end of the status bar. Type it, or **Cmd+click** (macOS) / **Ctrl+click** (Windows, Linux) it to open the command list in your browser.
+
 ### Step 9 (macOS only, recommended)
 
 ```
@@ -134,6 +136,7 @@ Built-in Claude Code commands you'll use with it:
 | **Session** | How much of your current 5-hour usage session you've used, as a progress bar, plus the time until it resets (`↻ 2h13m`). Green below 50%, yellow below 80%, red above |
 | **Context** | Context health: a bar plus the percentage of the context window used, then used/total tokens like `(820k/1M)`. **Green** below 50%, **yellow** below 80%, **red with ⚠** at 80% and above, so you know when to `/compact` or start fresh. Especially handy with 1M context windows |
 | **AWAKE** | A yellow badge while keep-awake is on, so you never forget it |
+| **Help** | `claudedock:help` at the right end, so anyone can see how to list every command. Type it, or Cmd/Ctrl+click it to open the [command list](#change-anything-with-claudedock) in your browser. Hidden when the row is too full to fit it |
 
 The bar adapts to your terminal width: full bars when wide, shorter bars when medium, plain numbers when narrow.
 
@@ -434,6 +437,11 @@ If the files are already gone but keep-awake is still on:
 - Your terminal is in full-screen mode, so the window went to another Space. Use a maximized window instead.
 - You need Chrome, Brave or Edge for the docked window. Without one, the page opens in your default browser.
 
+**Clicking `claudedock:help` in the bar does nothing**
+- Hold **Cmd** (macOS) or **Ctrl** (Windows, Linux) while clicking.
+- Your terminal needs clickable-link support (iTerm2, kitty, WezTerm, and others). macOS Terminal doesn't have it, so type `claudedock:help` instead.
+- Link shown but not clickable? Start Claude Code with `FORCE_HYPERLINK=1 claude`.
+
 **Weird colors or symbols**
 - Set `NO_COLOR=1` in your environment for a plain-text bar.
 
@@ -441,7 +449,7 @@ If the files are already gone but keep-awake is still on:
 
 ## How it works
 
-- **Status bar:** Claude Code runs `statusline.js` after each message (and every 10 seconds), passing session info as JSON: model, effort, context window, rate limits. The script prints one colored line. It's plain Node, with no dependencies and no network calls, and it never uses tokens.
+- **Status bar:** Claude Code runs `statusline.js` after each message (and every 10 seconds), passing session info as JSON: model, effort, context window, rate limits. The script prints one colored line, ending with `claudedock:help` as a clickable link (OSC 8) to the command list. It's plain Node, with no dependencies and no network calls, and it never uses tokens.
 - **Keep-awake:** `awake.js` changes the OS sleep setting and saves its state in `~/.claude/claudedock/state.json`. The status bar reads that file to show the **AWAKE** badge.
 - **Side browser:** `browse.js` either asks your terminal to split (iTerm2 through AppleScript, or the `tmux`, `wezterm` and `kitty` CLIs) and runs Carbonyl in the new pane, or starts Chrome/Brave/Edge in app mode with its own profile, sized to the right ~40% of your screen. Settings live in `~/.claude/claudedock/config.json`.
 - **Hotkey:** Claude Code's own keybindings can't run scripts, so ClaudeDock adds a system-wide shortcut: a macOS Quick Action, or a Windows Start Menu shortcut. That way it works even when Claude Code isn't the focused window.
